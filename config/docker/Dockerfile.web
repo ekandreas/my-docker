@@ -1,0 +1,52 @@
+ARG BUILDER_COMPOSER=composer
+FROM ${BUILDER_COMPOSER} as composer
+
+FROM php:7.2-fpm
+
+RUN apt-get update \
+    && echo "postfix postfix/mailname string example.com" | debconf-set-selections \
+    && echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections \
+    && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libz-dev \
+        gnupg2 \
+        postfix \
+        mysql-client \
+        less \
+    && docker-php-ext-install -j$(nproc) \
+        mysqli \
+        pdo \
+        pdo_mysql \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-configure opcache --enable-opcache --enable-opcache-file \
+    && docker-php-ext-install opcache \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apt-get remove -y build-essential libz-dev \
+    && apt-get autoremove -y \
+    && apt-get clean
+
+RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
+
+COPY /web /var/www/web
+COPY /config /var/www/config
+
+# Composer installed dependencies and plugins
+COPY --from=composer /app/vendor /var/www/vendor
+COPY --from=composer /app/web/app/mu-plugins /var/www/web/app/mu-plugins
+COPY --from=composer /app/web/app/plugins /var/www/web/app/plugins
+COPY --from=composer /app/web/wp /var/www/web/wp
+
+WORKDIR /var/www/web
+USER www-data
+
+RUN mkdir -p /var/tmp/php/opcache
+
+EXPOSE 9000
+
+CMD ["php-fpm"]

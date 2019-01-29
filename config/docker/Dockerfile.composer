@@ -1,0 +1,9 @@
+FROM composer:1.7.3 AS composer
+
+COPY composer.json /app/composer.json
+COPY composer.lock /app/composer.lock
+RUN mkdir -p /app/web/app/mu-plugins
+RUN mkdir -p /app/web/app/plugins
+RUN mkdir -p /app/web/wp
+
+RUN composer install --working-dir=/app
