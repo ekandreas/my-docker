@@ -22,3 +22,5 @@ web/.htaccess
 wp-cli.local.yml
 
 .idea
+
+web/app/languages
