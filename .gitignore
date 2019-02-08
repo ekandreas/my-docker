@@ -24,3 +24,6 @@ wp-cli.local.yml
 .idea
 
 web/app/languages
+
+.data
+.esdata
