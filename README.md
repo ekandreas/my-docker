@@ -72,3 +72,8 @@ Denna guide är för en maskin som inte har Git, PHP Composer och Docker för Ma
 * `sudo systemctl enable docker` ställ in docker att starta när datorn startar
 * `sudo systemctl starta docker` starta upp docker-daemonen
 * `sudo usermod -a -G docker USERNAME` lägg till användaren USERNAME i gruppen docker. Detta krävs för att kunna köra docker som vanlig användare. Logga in och ut för att ändringarna ska ta effekt. 
+
+
+## Bonus: Deploy till Linode med Terraform (iac)
+En MYCKET enkel deploy till linode finns under config/iac mot Linode för den som är experimentsugen.
+`terraform apply` och vid uppdateringar `dep deploy production` (deploy.php måste ha rätt IP-adress).
