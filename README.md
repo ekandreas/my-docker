@@ -77,8 +77,11 @@ Denna guide är för en maskin som inte har Git, PHP Composer och Docker för Ma
 ## Bonus: Deploy till Linode med Terraform (iac)
 En MYCKET enkel deploy till linode finns under config/iac mot Linode för den som är experimentsugen.
 
-1. Lägg till din Linode-token i linode.tf (https://www.linode.com/docs/platform/api/getting-started-with-the-linode-api/)
-1. Lägg in din ssh-nyckel i linode.tf
+Lite tips:
+https://www.linode.com/docs/applications/configuration-management/how-to-build-your-infrastructure-using-terraform-and-linode/
+
+### Steg ~
+1. Kopiera terraform.tfvars.example till terraform.tfvars och lägg in din token, ssh och önskad root-pass.
 1. Kör `terraform init`
 1. Kör `terraform apply`
 1. Ta ip-adressen i .linode_ip_address.txt och placera i /deploy.php för rätt host. 

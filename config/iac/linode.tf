@@ -1,6 +1,6 @@
 # Configure the Linode provider
 provider "linode" {
-  token = ""
+  token = "${var.token}"
 }
 
 resource "linode_instance" "web" {
@@ -8,8 +8,8 @@ resource "linode_instance" "web" {
   image = "linode/ubuntu18.04"
   region = "eu-central"
   type = "g6-standard-1"
-  authorized_keys = [""]
-  root_pass = "my-docker-linode"
+  authorized_keys = [ "${var.authorized_keys}" ]
+  root_pass = "${var.root_pass}"
 
   group = "wp"
   tags = [ "my-docker" ]
@@ -31,6 +31,7 @@ resource "linode_instance" "web" {
       "sudo apt install -y composer",
       "git clone https://github.com/ekandreas/my-docker",
       "cd ~/my-docker && composer install --no-dev",
+      "cd ~/my-docker && sed -i 's/local.my-docker.se/${linode_instance.web.ip_address}/g' docker-compose.yaml",
       "cd ~/my-docker && docker-compose up -d",
     ]
   }
