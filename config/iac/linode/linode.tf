@@ -37,7 +37,7 @@ resource "linode_instance" "web" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${linode_instance.web.ip_address} > .linode_ip_address.txt"
+    command = "echo ${linode_instance.web.ip_address} > .ip_address.txt"
   }
 
 }

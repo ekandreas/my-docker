@@ -1,7 +1,8 @@
 <?php
+
 namespace Deployer;
 
-host('my_linode_ip_address')
+host('my_ip_address')
     ->port(22)
     ->set('deploy_path', '~/my-docker')
     ->user('root')
@@ -11,7 +12,18 @@ host('my_linode_ip_address')
 
 set('repository', 'git@github.com:ekandreas/my-docker.git');
 
-task('deploy', function() {
-    run("cd {{deploy_path}} && git fetch");
-    run("cd {{deploy_path}} && docker-compose restart");
+task('deploy', function () {
+    $hostname = Task\Context::get()->getHost()->getHostname();
+
+    $commands = [
+        "cd {{deploy_path}} && git reset --hard && git fetch",
+        "cd {{deploy_path}} && sed -i 's/local.my-docker.se/{$hostname}/g' docker-compose.yaml",
+        "cd {{deploy_path}} && docker-compose restart web",
+        "cd {{deploy_path}} && docker-compose restart redis",
+    ];
+
+    foreach ($commands as $command) {
+        writeln($command);
+        run($command);
+    }
 });
