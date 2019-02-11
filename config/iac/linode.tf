@@ -1,6 +1,6 @@
 # Configure the Linode provider
 provider "linode" {
-  token = "d2d7f26ff84cd8e020ecafaa0981ff91bc53d1bfebbc730733a4a3c5708ea7e1"
+  token = ""
 }
 
 resource "linode_instance" "web" {
@@ -16,7 +16,6 @@ resource "linode_instance" "web" {
   swap_size = 256
   private_ip = false
 
-
   provisioner "remote-exec" {
     inline = [
       "sudo apt update",
@@ -31,8 +30,8 @@ resource "linode_instance" "web" {
       "sudo apt install -y git",
       "sudo apt install -y composer",
       "git clone https://github.com/ekandreas/my-docker",
-      "cd my-docker && composer install --no-dev",
-      "cd my-docker && docker-compose up -d",
+      "cd ~/my-docker && composer install --no-dev",
+      "cd ~/my-docker && docker-compose up -d",
     ]
   }
 
