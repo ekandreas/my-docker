@@ -42,8 +42,7 @@
     "roots/wp-password-bcrypt": "1.0.0"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-master",
-    "deployer/deployer": "^6.4"
+    "roave/security-advisories": "dev-master"
   },
   "extra": {
     "installer-paths": {

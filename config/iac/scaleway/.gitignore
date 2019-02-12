@@ -1,5 +1,0 @@
-.terraform*
-terraform*
-!terraform.tfvars.example
-.ip_address.txt
-images.json
