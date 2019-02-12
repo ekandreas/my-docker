@@ -11,19 +11,6 @@ resource "scaleway_ip" "ip" {
     command = "echo ${scaleway_ip.ip.ip} > .ip_address.txt"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt update",
-      "sudo apt upgrade -y",
-      "sudo apt install -y git",
-      "sudo apt install -y composer",
-      "git clone https://github.com/ekandreas/my-docker",
-      "cd ~/my-docker && composer install --no-dev",
-      "cd ~/my-docker && sed -i 's/local.my-docker.se/${scaleway_ip.ip.ip}/g' docker-compose.yaml",
-      "cd ~/my-docker && docker-compose up -d",
-    ]
-  }
-
 }
 
 resource "scaleway_server" "my_docker" {
