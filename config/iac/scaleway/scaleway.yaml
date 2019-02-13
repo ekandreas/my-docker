@@ -3,5 +3,5 @@ services:
   web:
     environment:
       WP_ENV: production
-      WP_HOME: http://my-docker.se
-      WP_SITEURL: http://my-docker.se/wp
+      WP_HOME: http://my_ip_address.se
+      WP_SITEURL: http://my_ip_address.se/wp
