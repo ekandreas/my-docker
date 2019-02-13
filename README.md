@@ -72,17 +72,3 @@ Denna guide är för en maskin som inte har Git, PHP Composer och Docker för Ma
 * `sudo systemctl enable docker` ställ in docker att starta när datorn startar
 * `sudo systemctl starta docker` starta upp docker-daemonen
 * `sudo usermod -a -G docker USERNAME` lägg till användaren USERNAME i gruppen docker. Detta krävs för att kunna köra docker som vanlig användare. Logga in och ut för att ändringarna ska ta effekt. 
-
-
-## Bonus: Deploy till Linode med Terraform (iac)
-En MYCKET enkel deploy till linode finns under config/iac mot Linode för den som är experimentsugen.
-
-Lite tips:
-https://www.linode.com/docs/applications/configuration-management/how-to-build-your-infrastructure-using-terraform-and-linode/
-
-### Steg ~
-1. Kopiera terraform.tfvars.example till terraform.tfvars och lägg in din token, ssh och önskad root-pass.
-1. Kör `terraform init`
-1. Kör `terraform apply`
-1. Ta ip-adressen i .linode_ip_address.txt och placera i /deploy.php för rätt host. 
-`terraform apply` och vid uppdateringar `dep deploy production` (deploy.php måste ha rätt IP-adress).
